@@ -6,13 +6,13 @@ ADD . /build/
 
 WORKDIR /build
 
-RUN go build -o main.
+RUN go build -o main .
 
 #stage 2
 
 FROM alpine
 
-RUN adduser -S -D -H /app appuser
+RUN adduser -S -D -H -h /app appuser
 
 USER appuser
 

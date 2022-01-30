@@ -5,15 +5,16 @@ import (
 	"log"
 	"os"
 
-	"github.com/abdulaleem-git/shorten-url/routes"
-	"github.com/gofiber/fiber"
+	"github.com/abdulaleem-git/url-shorten-service/routes"
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm/logger"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/joho/godotenv"
 )
 
 func setupRoutes(app *fiber.App) {
+	fmt.Println("Routes URL")
 	app.Get("/:url", routes.ResolveURL)
-	app.Post("/:url", routes.ShortenURL)
+	app.Post("/api/v1", routes.ShortenURL)
 
 }
 func main() {
