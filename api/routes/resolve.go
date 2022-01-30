@@ -1,13 +1,17 @@
 package routes
 
 import (
-	"github.com/abdulaleem-git/shorten-url/database"
+	"fmt"
+
+	"github.com/abdulaleem-git/url-shorten-service/database"
 	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func ResolveURL(c *fiber.Ctx) error {
 	url := c.Params("url")
+
+	fmt.Println("URL:", url)
 
 	r := database.CreateClient(0)
 	defer r.Close()

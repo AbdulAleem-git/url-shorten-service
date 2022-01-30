@@ -1,16 +1,17 @@
 package routes
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"time"
 
-	"github.com/abdulaleem-git/shorten-url/database"
-	"github.com/abdulaleem-git/shorten-url/helpers"
+	"github.com/abdulaleem-git/url-shorten-service/database"
+	"github.com/abdulaleem-git/url-shorten-service/helpers"
 	"github.com/asaskevich/govalidator"
 	"github.com/go-redis/redis/v8"
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/fiber/v2/internal/uuid"
+	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 type request struct {
@@ -29,6 +30,7 @@ type response struct {
 
 func ShortenURL(c *fiber.Ctx) error {
 	body := new(request)
+	fmt.Printf("Shorten URL is called")
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"Error": "cannot parse JSON"})
 	}
@@ -60,7 +62,7 @@ func ShortenURL(c *fiber.Ctx) error {
 
 	//check for domain error
 
-	if helpers.RemoveDomainError(body.URL) {
+	if !helpers.RemoveDomainError(body.URL) {
 		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"Error": "Service Unavailable"})
 	}
 
